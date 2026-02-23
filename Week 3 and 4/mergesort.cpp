@@ -12,16 +12,11 @@ void printarr(int arr[], int n) {
 }
 
 void mergeSort(int arr[], int l, int r) {
-	cout << "mergeSort(" << l << ", " << r << ") : ";
-	printarr(arr, r + 1);
     if (l < r) {
         int m = l + (r - l) / 2;
         mergeSort(arr, l, m);
         mergeSort(arr, m + 1, r);
         merge(arr, l, m, r);
-        
-        cout << "after merge (" << l << ", " << r << ") : ";
-        printarr(arr, r + 1);
     }
 }
 
@@ -76,4 +71,6 @@ int main() {
     printarr(arr, n);
     return 0;
 }
+
+
 

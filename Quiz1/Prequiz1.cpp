@@ -50,7 +50,7 @@ int main()
 				int temp = Prime[j];
 				Prime[j] = Prime[j + 1];
 				Prime[j + 1] = temp;
-			}
+			} 
 		}
 	}
 

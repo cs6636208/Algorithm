@@ -46,11 +46,9 @@ int quickSelect(vector<int> &arr, int low, int high, int k) {
 int main() {
     int n, k;
     cin >> n >> k;
-
-    vector<int> arr(n);
+    int arr[n];
     for (int i = 0; i < n; i++)
         cin >> arr[i];
-
     cout << quickSelect(arr, 0, n - 1, k);
     return 0;
 }

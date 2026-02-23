@@ -1,83 +1,67 @@
 #include <iostream>
 using namespace std;
 
-int main()
-{
-    int n;
-    cin >> n;
-    int prime[50];
-    int notprime[50];
-    int primecount = 0;
-    int notprimecount = 0;
-    bool isFirstPrime = false;
-    for (int i = 0; i < n; i++)
-    {
-        int num;
-        cin >> num;
-        bool isprime = true;
-        if (num < 1)
-        {
-            isprime = false;
+int a[100];
+int bestSum, bestL, bestR;
+
+void maxSub(int L, int R, int k) {
+    if (L > R) return;
+
+    if (L == R) {
+        if (a[L] > bestSum) {
+            bestSum = a[L];
+            bestL = bestR = L;
         }
-        else if (num > 1)
-        {
-            for (int j = 2; j * j <= num; j++)
-            {
-                if (num % j == 0)
-                {
-                    isprime = false;
-                    break;
-                }
-            }
-        }
-        if (i == 0)
-        {
-            isFirstPrime = isprime;
-        }
-        if (isprime)
-        {
-            prime[primecount] = num;
-            primecount++;
-        }
-        else
-        {
-            notprime[notprimecount] = num;
-            notprimecount++;
-        }
+        return;
     }
 
-    for (int i = 0; i < primecount - 1; i++)
-    {
-        for (int j = 0; j < primecount - i - 1; j++)
-        {
-            if (isFirstPrime)
-            {
-                if (prime[j] > prime[j + 1])
-                {
-                    int temp = prime[j];
-                    prime[j] = prime[j + 1];
-                    prime[j + 1] = temp;
-                }
-                else
-                {
-                    if (prime[j] < prime[j + 1])
-                    {
-                        int temp = prime[j];
-                        prime[j] = prime[j + 1];
-                        prime[j + 1] = temp;
-                    }
-                }
+    int mid = (L + R) / 2;
+
+    maxSub(L, mid, k);
+    maxSub(mid + 1, R, k);
+
+    for (int i = L; i <= R; i++) {
+        int sum = 0;
+        for (int j = i; j <= R && j - i + 1 <= k; j++) {
+            sum += a[j];
+            if (sum > bestSum) {
+                bestSum = sum;
+                bestL = i;
+                bestR = j;
             }
         }
-
-        for (int i = 0; i < primecount; i++)
-        {
-            cout << prime[i] << " ";
-        }
-        for (int i = 0; i < notprimecount; i++)
-        {
-            cout << notprime[i] << " ";
-        }
-        return 0;
     }
 }
+
+int main() {
+    int n;
+    cin >> n;
+
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
+
+    int q;
+    cin >> q;
+
+    int mid = (n - 1) / 2;
+
+    for (int i = 0; i < q; i++) {
+        int k;
+        cin >> k;
+
+        bestSum = -1000000;
+        
+        if (i == 0)
+            maxSub(0, mid, k);
+        else
+            maxSub(mid + 1, n - 1, k);
+
+        cout << k << " ";
+        for (int j = bestL; j <= bestR; j++)
+            cout << a[j] << " ";
+        cout << endl;
+    }
+
+    return 0;
+}
+
